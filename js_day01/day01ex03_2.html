@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        div.box {
+            width: 600px;
+            height: 600px;
+            border: 1px solid black;
+            background-color: yellow;
+            position: absolute;
+            top: 0px;
+            left: -200px;
+            transition: .5s ease;
+        }
+        div.box .cell {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            box-sizing: border-box;
+        }
+        div.box .cell1 {
+            top: 0;
+            left: 200px;
+            background-color: pink;
+        }
+        div.box .cell2 {
+            top: 200px;
+            right: 0;
+            transform: rotate(90deg);
+            background-color: skyblue;
+        }
+        div.box .cell3 {
+            bottom: 0;
+            left: 200px;
+            transform: rotate(180deg);
+            background-color: orange;
+        }
+        div.box .cell4 {
+            top: 200px;
+            left: 0;
+            transform: rotate(-90deg);
+            background-color: beige;
+        }
+        div.view {
+            border: 1px solid black;
+            width: 200px;
+            height: 200px;
+            top: 200px;
+            left: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    
+    <button class="btn">Click</button>
+    <div class="view">
+        <div class="box">
+            <div class="cell cell1">1</div>
+            <div class="cell cell2">2</div>
+            <div class="cell cell3">3</div>
+            <div class="cell cell4">4</div>
+        </div>
+    </div>
+
+
+    <script>
+        const box = document.querySelector('.box');
+        const btn = document.querySelector('.btn');
+        var rDeg = 90;
+
+        btn.addEventListener('click', () => {
+            box.style.rotate = rDeg + 'deg'
+            rDeg += 90
+        });
+    </script>
+
+</body>
+</html>

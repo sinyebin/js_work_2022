@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function People(name,age){
+            this.name= name;
+            this.age =age;
+        }
+        People.prototype.showInfo=function(){
+            document.write(`${this.name}님의 나이는 ${this.age}입니다.<br>`);
+        }
+        let man = new People('신예빈',25);
+        man.showInfo();
+        function Student(){
+            this.name=arguments[0];
+            this.age=arguments[1];
+        }
+        Student.prototype=new People();
+        Student.constructor=Student;
+        Student.prototype.aaa=function(major){
+            this.major=major;
+        };
+        let student = new Student('홍길동',35);
+        student.aaa('컴퓨터과학');
+
+        student.showInfo();
+        console.log(student.major);
+    </script>
+</body>
+</html>

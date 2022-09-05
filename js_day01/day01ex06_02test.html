@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            세탁기 클래스 만들기
+            속성: 이름, 용량, 메이커
+            기능: 불리기, 세제투입, 탈수, 세탁
+
+            세탁기를 상속받아서 세차기를 만들기
+            기능: 하부세차, 강력세제 투입
+        */
+        //자바스크립트를 이용한 클래스 구현.
+        function Washing(name, volume, product){
+            this.name=name;
+            this.volume=volume;
+            this.product=product;
+        }
+        
+        let machine= new Washing("세탁기",500,"Lg");
+
+        Washing.prototype.soak=function(){
+            document.write(`용량 ${this.volume}, 메이커 ${this.product} 이름 ${this.name} 의 빨래를 불립니다.<br>`);
+        }
+        Washing.prototype.put=function(){
+            document.write(`용량 ${this.volume}, 메이커 ${this.product} 이름 ${this.name} 의 세제를 투입합니다.<br>`);
+        }
+        Washing.prototype.dry=function(){
+            document.write(`용량 ${this.volume}, 메이커 ${this.product} 이름 ${this.name} 의 탈수를 시작합니다.<br>`);
+        }
+        Washing.prototype.wash=function(){
+            document.write(`용량 ${this.volume}, 메이커 ${this.product} 이름 ${this.name} 의 세탁을 시작합니다.<br>`);
+        }
+        Washing.prototype.showInfo=function(){
+            document.write(`${this.name}의 용량은 ${this.volume}, 메이커는 ${this.product}입니다.<br>`);
+            machine.wash();
+            machine.soak();
+            machine.put();
+            machine.dry();
+        }
+        machine.showInfo();
+        function CarWashing(){
+            this.name=arguments[0];
+            this.volume=arguments[1];
+            this.product=arguments[2];
+        }
+        CarWashing.prototype=new Washing();
+        CarWashing.constructor=Washing;
+        let carwash=new CarWashing('세차기',300,"메이커");
+        carwash.showInfo();
+    </script>
+</body>
+</html>

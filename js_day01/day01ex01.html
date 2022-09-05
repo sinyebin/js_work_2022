@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        nav ul{
+            border:0px solid red;
+            padding: 0px;
+            /*display: flex; float처럼 정렬 가능*/
+            overflow: hidden;
+            width:1000px;
+        }
+        nav ul li{
+            border-top:1px solid red;
+            border-bottom: 1px solid red;
+            list-style: none;
+            width:200px;
+            height:40px;
+            float: left;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 40px;
+        }
+        nav ul li:hover{
+            background:pink;
+            border-bottom:2px solid red;
+        }
+        div.content{
+            clear: both;
+        }
+        div.container{
+            border:1px solid blue;
+            width:1000px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Comstudy Coding School</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html">Profile</a></li>
+                <li>Lecture</li>
+                <li>Shop</li>
+                <li>Gallery</li>
+            </ul>
+
+        </nav>
+    </header>
+    <div class="content">
+        <div><h2>Hello world</h2></div>
+    </div>
+</div>
+</body>
+</html>

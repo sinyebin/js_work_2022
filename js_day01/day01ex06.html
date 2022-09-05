@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul.innerBox {
+            width:100px;
+            height: 100px;
+            background-color: yellow;
+            left: 0px;
+            top: 0px;
+            position: absolute;
+            transition: .1s linear;
+            padding: 0px;
+            margin: 0px;
+        }
+        ul.innerBox li {
+            width:100px;
+            height: 100px;
+            border:1px solid black;
+            list-style-type: none;
+            line-height: 100px;
+            text-align: center;
+            font-size: 36pt;
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+        }
+        div.outerBox {
+            border:1px solid black;
+            width: 100px;
+            height: 100px;
+            left: 100px;
+            top: 100px;
+            position: relative;
+            padding: 0px;
+            margin: 0px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="puzzle"></div>
+
+    <!-- 클래스에서 생성 가능하도록 하기 
+    <div class="outerBox">
+        <ul class="innerBox">
+            <li>1</li>
+            <li>?</li>
+        </ul>
+    </div>
+-->
+    <script>
+        function CellBox(ch){
+            this.el = document.createElement("div");
+            this.el.innerHTML ="<div class=\"outerBox\"> <ul class=\"innerBox\"><li>"+ch+"</li><li>?</li></ul></div>";
+            return this.el;
+        }
+        const puzzle = document.querySelector('.puzzle');
+        puzzle.appendChild(new CellBox('1') );
+        puzzle.appendChild(new CellBox('2') );
+        puzzle.appendChild(new CellBox('3') );
+        puzzle.appendChild(new CellBox('4') );
+    </script>
+    
+
+    <script>
+        const innerBoxArr = document.querySelectorAll('.innerBox');
+        for(let i=0;i<innerBoxArr.length;i++){
+            let y = innerBoxArr[i].offsetTop;
+            let intervalRef = setInterval(function() {
+                y -= 30;            
+                if(y<= -100) {
+                    clearInterval(intervalRef);
+                    innerBoxArr[i].style.top = '-100px';
+                    return;
+                }
+                innerBoxArr[i].style.top = y + 'px';
+            }, 100);
+        }    
+
+       
+    </script>
+</body>
+</html>

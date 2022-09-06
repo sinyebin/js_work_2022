@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //자바스크립트 함수
+        //ES6 이전에 함수 선언 방식
+        //ES6에는 화살표 함수가 추가 되었다. (2015년 무렵 ES6 출시)
+
+        function methodA(){
+            console.log("methodA 실행!");
+        }
+
+        //함수 호출
+        methodA();
+
+        //선언과 동시에 바로 실행
+        //함수명(); <-- 함수를 실행한다.
+        (function (){
+            console.log("익명 함수 실행");
+        })();
+
+        // 함수를 변수에 대입한다.
+        // 변수가 함수를 참조한다. 괄호를 쓰지않고 함수명만 사용.
+        var value01 = methodA;
+        value01();
+
+        //다른 함수의 매개변수로 사용 가능
+        function methodB(callback){
+            callback();
+        }
+        
+        methodB(methodA);
+
+        methodB(function(){
+            console.log("콜백함수 실행!");
+        });
+
+        // 함수를 배열에 담아서 사용하기
+        var _factory=[
+            function(){console.log("Input...");},
+            function(){console.log("Output...");},
+            function(){console.log("END...");}
+        ]
+        _factory[0]();
+        _factory[1]();
+        _factory[2]();
+
+        // 함수를 클래스처럼 사용
+        function Person(name, age){
+            this.name = name;
+            this.age = age;
+        }
+        var man1=new Person('Hong',23);
+        //새로운 속성 즉시 추가 가능.
+        man1.job="도둑";
+        console.log(man1.name, man1.age, man1.job);
+    </script>
+</body>
+</html>

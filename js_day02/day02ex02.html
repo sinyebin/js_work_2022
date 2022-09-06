@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="clickBtn">클릭!</button>
+    <script>
+        var clickBtn = document.getElementById("clickBtn");
+        clickBtn.onclick = function(evt){
+            console.log(event);
+            
+            //권장: event 매개변수 선언.
+            console.dir(evt.clientX);
+            console.dir(evt.clientY);
+            console.log(evt.target);
+        }
+
+
+
+
+        // 자바스크립트 함수에 자동 생성 객체
+        // arguments, event
+        // arguments 대신 ...args 권장
+        // event 객체는 매개변수로 직접 선언할 것을 권장
+
+        // 선언
+        function showInfo(){
+            console.log(">>> showInfo호출");
+            //arguments를 가급 사용하지 말고 ...args 사용
+            console.dir(arguments);
+        }
+        // 실행
+        //showInfo("홍길동",23,'a',true);
+
+        function showInfo2(...args){
+            console.log(">>> showInfo호출");
+            // arguments를 가급 사용하지 말고 ...args 사용
+            // args는 array 객체
+            console.dir(args);
+
+            console.log(arguments);
+            console.log(args);
+        }
+        showInfo2("홍길동",23,'a',true);
+    </script>
+</body>
+</html>

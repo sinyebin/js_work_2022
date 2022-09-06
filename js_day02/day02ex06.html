@@ -7,22 +7,42 @@
     <title>Document</title>
 </head>
 <body>
-    <table border='1' id="pList"></table>
+    <input type="text" id="search" value=""></input></br>
+    <table border='1' id="pList">
+        <tr>
+            <th>NAME</th>
+            <th>AGE</th>
+            <th>JOB</th>
+        </tr>
+    </table>
     <script>
         var pArr = [
             {"name": "HONG", "age":25, "job":"회사원"},
+            {"name": "HONG1", "age":25, "job":"회사원"},
+            {"name": "HONG2", "age":25, "job":"회사원"},
+            {"name": "HONG3", "age":25, "job":"회사원"},
             {"name": "KIM", "age":35, "job":"조교"},
             {"name": "PARK", "age":15, "job":"학생"},
             {"name": "KANG", "age":45, "job":"교수"}
         ];
-        var tagArray=pArr.map(function(p,i){          
-            return `<tr><td>${p.name}</td><td>${p.age}</td><td>${p.job}</td></tr>`;
-        });
-        console.log(tagArray);
+        function searchResult(){
+            var value=this.value;
+            var searchArr=pArr.filter(function(p){
+                return p.name.indexOf(value)!=-1;
+            });
 
-        for(var i=0;i<tagArray.length;i++){
-            document.querySelector("#pList").innerHTML+=tagArray[i];
+            var tagArray=searchArr.map(function(p,i){          
+                return `<tr><td>${p.name}</td><td>${p.age}</td><td>${p.job}</td></tr>`;
+            });
+            console.log(tagArray);
+
+            document.querySelector("#pList").innerHTML = "<tr><th>NAME</th><th>AGE</th><th>JOB</th></tr>";
+            for(var i=0; i<tagArray.length; i++) {
+                document.querySelector("#pList").innerHTML += tagArray[i];
+            }
+
         }
+        document.getElementById("search").onkeyup=searchResult;
     </script>
 </body>
 </html>

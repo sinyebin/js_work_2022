@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div.box {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            background-color: yellow;
+            position: absolute;
+            left:0px;
+            top: 0px;
+        }
+        div.targetBox {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+            position: absolute;
+            left:500px;
+            top: 100px;
+            z-index: -1;
+        }
+        div.box:nth-child(1){
+            background-color:yellow;
+            position: absolute;
+            left:0px;
+            top: 0px;
+        }
+        div.box:nth-child(2){
+            background-color:Red;
+            position: absolute;
+            left:50px;
+            top: 50px;
+        }
+        div.box:nth-child(3){
+            background-color:Green;
+            position: absolute;
+            left:100px;
+            top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">Box</div>
+    <div class="box">Box</div>
+    <div class="box">Box</div>
+    <div class="targetBox">Target</div>
+    <script>
+        var boxList=document.getElementsByClassName("box");
+        for (var i=0; i<boxList.length; i++) {
+            moveBox(boxList[i]);
+        }
+        function moveBox(box){
+            box.onmousedown=function(event){
+                var target=event.target;
+                var mouseX=event.clientX;
+                var mouseY=event.clientY;
+                var gapX=mouseX - target.offsetLeft;
+                var gapY=mouseY - target.offsetTop;
+                document.onmousemove=function(event){
+                    target.style.left=event.clientX -gapX+"px";
+                    target.style.top=event.clientY -gapY+"px";
+                    if(target.offsetLeft>300&&target.offsetLeft<700&&target.offsetTop>-100&&target.offsetTop<300){
+                        target.style.left="500px";
+                        target.style.top="100px";
+                        document.body.style.backgroundColor = window.getComputedStyle(target).getPropertyValue("background-color");
+                    }else{
+                        document.body.style.backgroundColor = 'white';
+                    }
+                }
+                document.onmouseup=function(event){
+                    document.onmousemove=null;
+                }
+            }
+        }        
+    </script>
+</body>
+</html>

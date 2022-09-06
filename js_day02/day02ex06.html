@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border='1' id="pList"></table>
+    <script>
+        var pArr = [
+            {"name": "HONG", "age":25, "job":"회사원"},
+            {"name": "KIM", "age":35, "job":"조교"},
+            {"name": "PARK", "age":15, "job":"학생"},
+            {"name": "KANG", "age":45, "job":"교수"}
+        ];
+        var tagArray=pArr.map(function(p,i){          
+            return `<tr><td>${p.name}</td><td>${p.age}</td><td>${p.job}</td></tr>`;
+        });
+        console.log(tagArray);
+
+        for(var i=0;i<tagArray.length;i++){
+            document.querySelector("#pList").innerHTML+=tagArray[i];
+        }
+    </script>
+</body>
+</html>

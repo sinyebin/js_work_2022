@@ -12,7 +12,7 @@
             left: 0px;
             top: 0px;
             position: absolute;
-            transition: .1s linear;
+            transition: .5s linear;
             padding: 0px;
             margin: 0px;
         }
@@ -68,10 +68,15 @@
             this.tagSet.appendChild(this.ulTag);
             this.ulTag.appendChild(this.li1);
             this.ulTag.appendChild(this.li2);
-            
-            const innerBox = this.ulTag;
+
+            this.tagSet.onclick=this.clickEventHandler;
+            this.tagSet.ondblclick=this.mouseoutEventHandler;
+        }
+        CellBox.prototype.clickEventHandler=function(event){
+            const innerBox = this.children[0];
             let y = innerBox.offsetTop;
-            let intervalRef = setInterval(function() {
+            innerBox.style.top = '-100px';
+            /*let intervalRef = setInterval(function() {
                 y -= 30;
                 if(y<= -100) {
                     clearInterval(intervalRef);
@@ -79,16 +84,18 @@
                     return;
                 }
                 innerBox.style.top = y + 'px';
-            }, 100);
+            }, 100);*/
         }
-        
+        CellBox.prototype.mouseoutEventHandler=function(event){
+            const innerBox = this.children[0];
+            innerBox.style.top = '0px';
+        }
         const puzzle = document.querySelector('.puzzle');
         new CellBox(puzzle, '1');
         new CellBox(puzzle, '2');
         new CellBox(puzzle, '3');
         new CellBox(puzzle, '4');
 
-        
     </script>
 </body>
 </html>

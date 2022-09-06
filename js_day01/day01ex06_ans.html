@@ -39,12 +39,17 @@
             border:1px solid black;
             width: 100px;
             height: 100px;
-            left: 100px;
-            top: 100px;
+            left: 0px;
+            top: 0px;
             position: relative;
             padding: 0px;
             margin: 0px;
             overflow: hidden;
+            float: left;
+            box-sizing: border-box;
+        }
+        .puzzle{
+            width:400px;
         }
     </style>
 </head>
@@ -69,13 +74,19 @@
             this.ulTag.appendChild(this.li1);
             this.ulTag.appendChild(this.li2);
 
+            var THIS = this;
+
             this.tagSet.onclick=this.clickEventHandler;
-            this.tagSet.ondblclick=this.mouseoutEventHandler;
+            setTimeout(function() {
+                //function 콜백함수에서 this는 windeow이다.
+                //화살뵤 함수에서 this는 생성된 객체가 되나.
+                THIS.closeCard();
+            },1000);
         }
+        CellBox.prototype.tempCell=null;
         CellBox.prototype.clickEventHandler=function(event){
             const innerBox = this.children[0];
-            let y = innerBox.offsetTop;
-            innerBox.style.top = '-100px';
+            innerBox.style.top = '0px';
             /*let intervalRef = setInterval(function() {
                 y -= 30;
                 if(y<= -100) {
@@ -85,16 +96,49 @@
                 }
                 innerBox.style.top = y + 'px';
             }, 100);*/
+
+            //알파벳 비교
+            //1. 첫번째 클릭인가?
+            //1-1. 임시로 저장하기
+            //2. 두번째 클릭인가?
+            //2-1. 첫번째 클릭의 알파벳과 비교
+            //3. 비교후 다른 알파벳이면 둘다 closeCard 후 임시저장 초기화            
+            if( CellBox.prototype.tempCell==null){
+                CellBox.prototype.tempCell=this;
+            }else{
+                var first=CellBox.prototype.tempCell.children[0];
+                var second=this.children[0];
+                var firstCh=first.querySelector('li').innerText;
+                var secondCh=second.querySelector('li').innerText;
+                if(firstCh == secondCh) {
+                } else {
+                    setTimeout(function(){
+                        first.style.top = '-100px';
+                        second.style.top = '-100px';  
+                    },500);
+                                     
+                }
+                CellBox.prototype.tempCell = null
+            }
         }
-        CellBox.prototype.mouseoutEventHandler=function(event){
-            const innerBox = this.children[0];
-            innerBox.style.top = '0px';
+        CellBox.prototype.closeCard=function(event){
+            const innerBox = this.ulTag;
+            innerBox.style.top = '-100px';
         }
         const puzzle = document.querySelector('.puzzle');
-        new CellBox(puzzle, '1');
-        new CellBox(puzzle, '2');
-        new CellBox(puzzle, '3');
-        new CellBox(puzzle, '4');
+        for(var i=0; i<16; i++) {
+            new CellBox(puzzle, String.fromCharCode(i%8+65));
+        }
+
+        var cells = puzzle.querySelectorAll('.innerBox li:nth-child(1)');
+        for(var i=0; i<50; i++) {
+            var idx1 = Math.floor(Math.random()*cells.length);
+            var idx2 = Math.floor(Math.random()*cells.length);
+
+            var temp = cells[idx1].innerText;
+            cells[idx1].innerText = cells[idx2].innerText;
+            cells[idx2].innerText = temp;
+        }
 
     </script>
 </body>

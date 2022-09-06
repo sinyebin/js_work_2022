@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var val0=10;
+        var val1=20;
+        var val2=30;
+        var val3=50;
+        var val4=60;
+        
+        console.log(this===window);
+        //bom(브라우저 오브젝트 모델에서 최상위는 window)
+        for(var i=0;i<5;i++){            
+            console.log(this['val'+i]);
+            console.log(window['val'+i]);
+        }
+        var a=10;
+        var b=20;
+        var c=30;
+        var d=50;
+        var e=60;
+        for(var i="a".charCodeAt(0);i<="e".charCodeAt(0);i++){
+            console.log(this[String.fromCharCode(i)]);
+        }
+
+        
+    </script>
+</body>
+</html>

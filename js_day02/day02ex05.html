@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var fishs =['오징어','꼴뚜기','대구','명태','거북이'];
+        var findIndex=-1;
+        var findFish = '대구';
+        fishs.forEach(function(fish,i){
+            if(fish==findFish){
+                findIndex=i;
+            }
+        });
+        console.log(findFish+'는 '+findIndex+'번지에 있다.');
+    </script>
+</body>
+</html>

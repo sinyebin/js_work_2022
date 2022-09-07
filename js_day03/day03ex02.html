@@ -5,8 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #box{
+            width:200px;
+            height:200px;
+            border: 1px solid black;
+            background-color: hsl(66,98%,49%);
+        }
+
+    </style>
 </head>
 <body>
-    
+    <div id="box">Box</div>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script>
+        // setter / getter가 모두 가능
+        $(`#box`).css("background-color","red");
+
+        var color=$(`#box`).css("background-color");
+        console.log(color);
+
+        var box=$(`#box`)[0];
+        console.log(box.style.backgroundColor);
+        //JS에서는 style의 getter가 바로 지원 안됨.
+        console.log(window.getComputedStyle(box).getPropertyValue('background-color'));
+    </script>
 </body>
 </html>

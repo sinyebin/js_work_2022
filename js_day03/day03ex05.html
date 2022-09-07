@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <button class="okbtn">OK</button>
+    <div id="box"></div>
+
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script>
+        function clickHandler(event) {
+            console.log('clicked');
+            $('#box').append('<button class="newBtn">new btn</button>')
+            $('.newBtn').off('click');
+            $('.newBtn').on('click', function(event){
+                console.log(this);
+            });
+        }
+        //$('button.okbtn').click(clickHandler);
+        $('button.okbtn').on('click', clickHandler);
+        
+    </script>
+</body>
+</html>

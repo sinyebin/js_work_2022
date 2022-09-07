@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box li {
+            width: 200px;
+            height: 100px;
+            border: 1px solid red;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            float: left;
+            list-style: none;
+        }
+        #box ul {
+            border: 1px solid black;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            width: 1000px;
+            left: 0;
+            transition: left .5s linear;
+        }
+    </style>
+</head>
+<body>
+    <button class="leftBtn">Left Move</button>
+    <div id="box">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+    </div>
+
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script>
+        const colors = ['red','green','blue','yellow','orange'];
+        $(document).ready(function () {
+            $("#box li").css("backgroundColor", function(index, value){
+                console.log(index, value);
+                return colors[index];
+            });
+        });
+
+        var cnt = 0;
+        var x = parseInt($("#box ul").css("left"));
+        $('.leftBtn').click(function(event) { 
+            $("#box ul").css({position:"absolute"});
+            cnt++;
+            if(cnt < $("#box li").size()) {
+                x = parseInt($("#box li").css("width"))*cnt;
+                $("#box ul").css("left", -x + "px");
+            }
+            
+        });
+    </script>
+</body>
+</html>

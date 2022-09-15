@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/update_form" method="post">
+        <input type="text" id="no" name="no" value=<%=car.no %> hidden="true"></input>
+        <label for="name">NAME</label>
+        <input type="text" id="name" name="name" value=<%=car.name %> required></input>
+        <label for="price">PRICE</label>
+        <input type="text" id="price" name="price" value=<%=car.price %> required></input>
+        <label for="company">COMPANY</label>
+        <input type="text" id="company" name="company" value=<%=car.company %> required></input>
+        <label for="year">YEAR</label>
+        <input type="text"id="year" name="year" value=<%=car.year %> required></input>
+        <button type="submit">수정</button>
+    </form>    
+</body>
+</html>

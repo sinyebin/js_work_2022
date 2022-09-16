@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/add_form" method="post" enctype="multipart/form-data">
+        <label for="id">아이디</label>
+        <input type="text" id="id" name="id" required></input></br>
+        <label for="name">성명</label>
+        <input type="text" id="name" name="name" required></input></br>
+        <label for="email">이메일</label>
+        <input type="text" id="email" name="email" required></input></br>
+        <label for="photo">사진</label>
+        <input type="file" name="photo" id="photo"><br>
+        <div id="previewImage"></div>
+        <label for="pw">비밀번호</label>
+        <input type="text"id="pw" name="pw" required></input></br>
+        <button type="submit">저장하기</button>
+    </form>    
+    <div class="photoListBox">sss</div>
+    <script class="template" type="text/template">
+        <table width="100%" border="1">
+            <tr>
+                <th>번호</th>
+                <th>사진</th>
+                <th>아이디</th>
+                <th>성명</th>
+                <th>이메일</th>
+                <th>삭제</th>
+            </tr>
+            <% photoList.forEach(function(photo) { %>
+                <tr>
+                    <td><%=photo.no %></td>
+                    <td><img src="<%=photo.photo %>"/></td>
+                    <td><%=photo.id %></td>
+                    <td><%=photo.name %></td>
+                    <td><%=photo.email %></td>
+                    <td><input type="text" id="pw" placeholder="비밀번호"><input type="button" onclick="location.href='/delete/<%=photo.no%>';" value="삭제"></td>
+                </tr>
+                
+            <% }); %>
+        </table>
+    </script>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/underscore@1.13.4/underscore-umd-min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $.get("/home", function(data, status) {
+            if(status == "success") {
+                var compiled = _.template($(".template").html());
+                var html = compiled(data);
+
+                console.log(typeof(data));
+                $('div.photoListBox').html(html);
+            }
+        });
+    });
+    </script>
+    <script>
+        var fileInput = document.getElementById("photo");
+        var previewImage = document.getElementById("previewImage");
+        function readImage(input) {
+            if(input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var readFileUrl = e.target.result;
+                    previewImage.innerHTML = `<img src="${readFileUrl}" width="200"/>`;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }                      
+        }
+        fileInput.onchange = function(e){
+            readImage(e.currentTarget);
+        };
+    </script>
+</body>
+</html>

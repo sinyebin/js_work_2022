@@ -39,7 +39,13 @@
                     <td><%=photo.id %></td>
                     <td><%=photo.name %></td>
                     <td><%=photo.email %></td>
-                    <td><input type="text" id="pw" placeholder="비밀번호"><input type="button" onclick="location.href='/delete/<%=photo.no%>';" value="삭제"></td>
+                    <td>
+                        <form action = "/delete" method= "post">
+                            <input type="text" name="deletepw" placeholder="비밀번호" required>
+                            <input type="text" value="<%=photo.no %>" name="deleteno" style="display: none;">
+                            <button type="submit">삭제</button>
+                        </form>
+                    </td>
                 </tr>
                 
             <% }); %>

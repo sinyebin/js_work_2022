@@ -39,11 +39,11 @@ router.route('/').get((req, res) => {
 var num=0;
 var photoList=[
 ]
-var id;
-var name;
-var email;
-var photo;
-var pw;
+var id="";
+var name="";
+var email="";
+var photo="";
+var pw="";
 router.route('/home').get((req, res) =>{
     req.app.render('home',{photoList},(err,html)=>{
         if(err){
@@ -65,20 +65,41 @@ router.route('/add_form').post((req, res) =>{
         name=fields.name;
         email=fields.email;
         pw=fields.pw;
-        
+        photoList.push({no:num, id:id, name:name, email:email, photo:photo, pw:pw});
+        num++;
+        req.app.render('home',{photoList},(err,html)=>{
+            if(err){
+                throw err;
+            }
+            res.end(html);
+        });
     });
-    photoList.push({no:num, id:id, name:name, email:email, photo:photo, pw:pw}); 
-    num++;
+   //res.send(photoList); 
+    
+});
+
+router.route("/delete").post((req,res)=>{
+    let deletepw=req.body.deletepw; 
+    let deleteno=req.body.deleteno;
+    let check=0;
+    for(var i=0;i<photoList.length;i++){
+        if(photoList[i].no==deleteno){
+            check=i;
+        }
+    }
+    if(deletepw===photoList[check].pw){
+        photoList.splice(check,1);
+        console.log("삭제");
+    }else{
+        console.log("비밀번호가 다릅니다.");
+    }
     req.app.render('home',{photoList},(err,html)=>{
         if(err){
             throw err;
         }
         res.end(html);
-   });
-   //res.send(photoList); 
-    
+    });
 });
-
 
 app.use('/', router);
 

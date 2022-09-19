@@ -23,7 +23,9 @@
                     <tr>
                         <th>아이디</th>
                         <td><input type="text" name="userid" /></td>
-                        <td rowspan="4">사진미리보기</td>
+                        <td rowspan="4">사진미리보기
+                            <div id="previewImage"></div>
+                        </td>
                     </tr>
                     <tr>
                         <th>성명</th>
@@ -35,7 +37,7 @@
                     </tr>
                     <tr>
                         <th>사진</th>
-                        <td><input type="file" multiple name="photo" /></td>
+                        <td><input type="file" multiple name="photo" id="imageSelector"/></td>
                     </tr>
                     <tr>
                         <td colspan="3">
@@ -66,12 +68,32 @@
                 <td><%=saram.id %></td>
                 <td><%=saram.name %></td>
                 <td><%=saram.email %></td>
-                <td><img src="/<%=saram.photo %>" height="80"/></td>
+                <td><img src="/<%=photo %>" height="80"/></td>
             </tr>
         <%  }); %>
         </table>
     </script>
+    <script>
+        var fileInput = document.getElementById("imageSelector");
+        var previewImage = document.getElementById("previewImage");
 
+        function readImage(input) {
+            for(var i = 0; i < input.files.length; i++) {
+                if(input.files && input.files[i]) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        var readFileUrl = e.target.result;
+                        previewImage.innerHTML += `<img src="${readFileUrl}" width="200"/>`;
+                    }
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }           
+        }
+
+        fileInput.onchange = function(e){
+            readImage(e.currentTarget);
+        };
+    </script>
     <script>
         let saramList = [];
 

@@ -8,9 +8,7 @@ const expressErrorHandler = require('express-error-handler');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const formidable = require('formidable');
-var fs = require('fs');
-// 파일 업로드 기능
-const multer = require('multer');
+const fs=require('fs');
 
 app.set('port', process.env.PORT || 3000);
 // 쿠키&세션 사용 설정
@@ -23,32 +21,12 @@ app.use(expressSession({
 
 app.use(cors());
 app.use('/images',express.static('images'));
-app.use('/upload', express.static('upload'));;
+app.use('/upload', express.static('upload'));
 app.use(express.static('public'));
 
 // bodyparser 미들웨어 등록
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-
-var storage = multer.diskStorage({
-    destination : function(req, file,callback) {
-        callback(null, 'upload');
-    },
-    filename : function(req, file, callback) {
-        callback(null, Date.now() + "_" + file.originalname);
-    }
-});
-// 파일 제한 : 최대 10개, 1G이하
-var upload = multer({
-    storage : storage,
-    limits : {
-        files: 10,
-        fileSize : 1024 * 1024 * 1024
-    }
-});
-
-// 데이터 저장 리스트
-const saramList = [];
 
 
 //app.get("/", (req, res) => {
@@ -59,66 +37,33 @@ router.route('/').get((req, res) => {
     res.end();
 });
 
-router.route('/form').get((req, res)=>{
+router.route('/form').get((req, res) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write('<form action="fileupload" method="post" enctype="multipart/form-data">');
     res.write('<input type="file" name="filetoupload"><br>');
     res.write('<input type="submit">');
     res.write('</form>');
     res.end();
+
 });
 
-
-router.route('/fileupload').post((req, res)=>{
+router.route('/fileupload').post((req, res) => {
     var form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
-      var oldpath = files.filetoupload.filepath;
-      var newpath = __dirname+'/upload/' + files.filetoupload.originalFilename;
-      fs.rename(oldpath, newpath, function (err) {
-        if (err) throw err;
+        fs.copyFile(files.filetoupload.filepath,"E:/js_work_2022/JS_NODE_WORK04/upload/"+ files.filetoupload.originalFilename,(err)=>{
+            fs.unlink(files.filetoupload.filepath, (err) => {});
+                if (err) console.log(err)
+        });
+        
         res.writeHead(200, {'Content-Type':'text/html; charset=UTF-8'});
         res.write('<h3>File uploaded and moved!</h3>');
         res.write(`<img src="/upload/${files.filetoupload.originalFilename}"/>`);
         res.end();
-      });
     });
 });
 
-
-router.route('/saram/list').get(function(req, res) {
-    res.send(saramList);
-});
-
-let pnoSequence = 1;
-var fileInfo=[];
-router.route('/saram/input').post(upload.array('photo', 1), function(req, res) {
-    console.log('/saram/input', req.body.userid);
-    var files = req.files;
-    console.log(files[0]);
-
-    for(var i=0;i<files.length;i++){
-        fileInfo.push(files[i].path);
-    }   
-
-    console.log(fileInfo[1]);
-    console.log(fileInfo[2]);
-    let paramData = {
-        pno: pnoSequence++,
-        id : req.body.userid,
-        name : req.body.username,
-        email : req.body.email,
-        photo: fileInfo
-    }
-
-    saramList.push(paramData);
-    console.log(paramData);
-    res.send(saramList);
-
-});
-
-
-//// -----------------------------------
 app.use('/', router);
+
 var errorHandler = expressErrorHandler({
     static: {
         '404': './public/404.html'

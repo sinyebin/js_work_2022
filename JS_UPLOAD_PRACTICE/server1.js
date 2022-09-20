@@ -10,7 +10,6 @@ const expressSession = require('express-session');
 const formidable = require('formidable');
 const fs=require('fs');
 const { executionAsyncResource } = require('async_hooks');
-const { captureRejectionSymbol } = require('events');
 const MongoClient = require('mongodb').MongoClient;
 const dbUrl = 'mongodb://localhost';
 
@@ -42,28 +41,6 @@ async function dbConn() {
     console.log('>>>>> DB 접속 성공!');
 }
 
-function executeDB(db, req, res, callback) {
-    if(db) {
-        callback(db);
-    } else {
-        console.log("----- 디비 접속 안됨. ------");
-        res.send({
-            data : [],
-            result: '디비 접속 안됨.'
-        });
-    }
-}
-
-async function getNextSequence(name){
-    let count = db.collection('counters');
-    let ret = await count.findOneAndUpdate(
-        {"_id": name },
-        { $inc: { "seq": 1 } }
-        
-    );
-    return ret.value.seq;
-}
-
 //app.get("/", (req, res) => {
 router.route('/').get((req, res) => {
     console.log("GET - / 요청");
@@ -71,18 +48,21 @@ router.route('/').get((req, res) => {
     res.write("<h2>컴스터디 코딩스쿨</h2>");
     res.end();
 });
+var num=0;
+var photoList=[
+]
+var id="";
+var name="";
+var email="";
+var photo="";
+var pw="";
 router.route('/home').get((req, res) =>{
-    executeDB(db,req,res,async function(db){
-        const photo=db.collection('photo');
-        const photoList=await photo.find().toArray();
-        req.app.render('home',{photoList},(err,html)=>{
-            if(err){
-                throw err;
-            }
-            res.end(html);
-        });
-    });
-    
+    req.app.render('home',{photoList},(err,html)=>{
+        if(err){
+            throw err;
+        }
+        res.end(html);
+    }); 
 });
 
 router.route('/add_form').post((req, res) =>{
@@ -92,40 +72,13 @@ router.route('/add_form').post((req, res) =>{
             fs.unlink(files.photo.filepath, (err) => {});
                 if (err) console.log(err)
         });
-        executeDB(db,req,res,async function(db){
-            let num=await getNextSequence("userid");
-            let photoUpdate = {
-                no:num,
-                id:fields.id,
-                name:fields.name,
-                email:fields.email,
-                photo:"/upload/"+files.photo.originalFilename,
-                pw:fields.pw
-            }
-            let photo = db.collection('photo');
-            let result=await photo.insert(photoUpdate);
-            const photoList=await photo.find().toArray();
-            req.app.render('home',{photoList},(err,html)=>{
-                if(err){
-                    throw err;
-                }
-                res.end(html);
-            });
-        });
-        
-    });
-
-    
-});
-
-router.route("/delete").post((req,res)=>{
-    executeDB(db,req,res,async function(db){
-        let deletepw=String(req.body.deletepw); 
-        let deleteno=parseInt(req.body.deleteno);
-        let photo = db.collection('photo');
-        let result = await photo.deleteOne({"no":deleteno,"pw":deletepw});
-        console.log(">>>result:"+ result);
-        const photoList=await photo.find().toArray();
+        photo="/upload/"+files.photo.originalFilename;
+        id=fields.id;
+        name=fields.name;
+        email=fields.email;
+        pw=fields.pw;
+        photoList.push({no:num, id:id, name:name, email:email, photo:photo, pw:pw});
+        num++;
         req.app.render('home',{photoList},(err,html)=>{
             if(err){
                 throw err;
@@ -133,7 +86,31 @@ router.route("/delete").post((req,res)=>{
             res.end(html);
         });
     });
+   //res.send(photoList); 
     
+});
+
+router.route("/delete").post((req,res)=>{
+    let deletepw=req.body.deletepw; 
+    let deleteno=req.body.deleteno;
+    let check=0;
+    for(var i=0;i<photoList.length;i++){
+        if(photoList[i].no==deleteno){
+            check=i;
+        }
+    }
+    if(deletepw===photoList[check].pw){
+        photoList.splice(check,1);
+        console.log("삭제");
+    }else{
+        console.log("비밀번호가 다릅니다.");
+    }
+    req.app.render('home',{photoList},(err,html)=>{
+        if(err){
+            throw err;
+        }
+        res.end(html);
+    });
 });
 
 app.use('/', router);
@@ -152,5 +129,4 @@ app.use(errorHandler);
 const server = http.createServer(app);
 server.listen(app.get('port'), ()=>{
     console.log('Running on ', app.get('port') );
-    dbConn();
 });

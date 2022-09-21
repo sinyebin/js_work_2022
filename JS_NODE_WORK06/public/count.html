@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var count = 0;
+        window.onload = function() {
+            function countHandler() {
+                var url = "http://localhost:3000/count/"+count;
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function() {
+                    if(this.responseText != "") {
+                        document.getElementById('result').innerHTML = "<h3>"+this.responseText+"</h3>";
+                        var cntObj = JSON.parse(this.responseText.trim());
+                        count = cntObj.count;
+                    }
+                };
+
+                xhr.open("get", url, true);
+                xhr.send();
+            }
+
+            // 1초에 한번씩 서버 카운트를 체크한다.
+            var interval = setInterval(countHandler, 1000);
+        };
+
+        // 서버에 카운트를 증가 시킨다.
+        var url2 = "http://localhost:3000/count/";
+        var xhr2 = new XMLHttpRequest();
+        console.log(count);
+        xhr2.onload = function() {
+            if(this.responseText != "") {
+                document.getElementById('result').innerHTML = "<h3>"+this.responseText+"</h3>";
+                var cntObj = JSON.parse(this.responseText.trim());
+                count = cntObj.count;
+            }
+        };
+        xhr2.open("get", url2, true);
+        xhr2.send();
+    </script>
+</head>
+<body>
+    <h1>실시간 카운트 처리 연습</h1>
+    <div id="result"></div>
+</body>
+</html>

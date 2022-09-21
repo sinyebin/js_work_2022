@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>client_socket_ex</title>
+    <script src="http://code.jquery.com/jquery.js"></script>
+</head>
+<body>
+    <h1>client_socket_ex</h1>
+    <div id="resultBox"></div>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script>
+        function printMessage(message) {
+            console.log(message);
+            $('#resultBox').append(message);
+        }
+        const socket = io.connect('http://localhost:3000');
+        socket.on('connect',function(){
+            printMessage("서버 접속 성공!");
+        });
+    </script>
+</body>
+</html>
